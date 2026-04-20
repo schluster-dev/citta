@@ -1,2 +1,0 @@
-# citta
-Citta-web service
