@@ -1,0 +1,31 @@
+---
+const { title } = Astro.props;
+import '../styles/global.css';
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | Citta</title>
+    </head>
+  <body class="bg-stone-50 text-stone-800 font-sans">
+    <nav class="border-b border-stone-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+      <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold tracking-tighter text-stone-900">CITTA</a>
+        <div class="space-x-6 text-sm uppercase tracking-widest text-stone-600">
+          <a href="/asn" class="hover:text-primary">ASN</a>
+          <a href="/pendidikan" class="hover:text-primary">Edukasi</a>
+        </div>
+      </div>
+    </nav>
+    
+    <main class="max-w-5xl mx-auto px-6 py-10">
+      <slot />
+    </main>
+
+    <footer class="text-center py-10 text-stone-500 text-sm">
+      &copy; 2026 Citta. Platform Informasi Kreatif.
+    </footer>
+  </body>
+</html>

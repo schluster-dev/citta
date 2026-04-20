@@ -1,0 +1,36 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { Button } from "@/components/ui/button";
+---
+
+<MainLayout title="Beranda">
+  <header class="text-center py-16">
+    <h1 class="text-5xl md:text-7xl font-serif font-medium text-stone-900 mb-6">
+      Info <span class="text-primary italic">Esensial</span>, <br />Gaya Visual <span class="text-primary italic">Elegan</span>.
+    </h1>
+    <p class="text-stone-600 max-w-lg mx-auto text-lg">Platform Citta menyajikan update ASN, Teknologi, dan Pendidikan dengan estetika yang menenangkan.</p>
+    <div class="mt-8">
+      <Button className="rounded-full px-8">Jelajahi Konten</Button>
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
+    <div class="md:col-span-2 space-y-8">
+      <article class="bg-white p-6 rounded-xl border border-stone-100 shadow-sm">
+        <h2 class="text-2xl font-bold mb-2">Update ASN Terbaru</h2>
+        <p class="text-stone-600">Informasi mutasi dan regulasi terbaru untuk pegawai ASN...</p>
+      </article>
+      
+      <AdSlot /> <article class="bg-white p-6 rounded-xl border border-stone-100 shadow-sm">
+        <h2 class="text-2xl font-bold mb-2">Kurikulum Pendidikan 2026</h2>
+        <p class="text-stone-600">Perubahan signifikan dalam metode ajar digital...</p>
+      </article>
+    </div>
+
+    <aside class="md:col-span-1">
+      <div class="sticky top-24">
+        <AdSlot className="h-[400px]" /> </div>
+    </aside>
+  </div>
+</MainLayout>

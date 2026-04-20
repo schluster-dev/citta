@@ -1,0 +1,18 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('asn');
+---
+
+<MainLayout title="Daftar Info ASN">
+  <h1 class="text-3xl font-bold text-center mb-10">Info ASN</h1>
+  <div class="space-y-4">
+    {allPosts.map((post) => (
+      <a href={`/asn/${post.id}`} class="block p-4 border rounded hover:bg-stone-100">
+        <h2 class="text-xl font-bold">{post.data.title}</h2>
+        <p class="text-stone-600">{post.data.description}</p>
+      </a>
+    ))}
+  </div>
+</MainLayout>
