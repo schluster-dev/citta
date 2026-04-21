@@ -1,0 +1,104 @@
+---
+import { getCollection, render } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('teknologi');
+  return posts.map(post => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// Logika untuk Post Terkait berdasarkan tag
+const allPosts = await getCollection('teknologi');
+const relatedPosts = allPosts
+  .filter(p => p.id !== post.id && p.data.tags?.some(tag => post.data.tags?.includes(tag)))
+  .slice(0, 3);
+---
+
+<MainLayout title={post.data.title}>
+  <article class="max-w-3xl mx-auto py-10 px-4">
+    
+    <header class="mb-10 text-center">
+      <h1 class="text-4xl font-bold mb-4">{post.data.title}</h1>
+      <p class="text-gray-500">
+        Oleh {post.data.author} pada {new Date(post.data.pubDate).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </p>
+    </header>
+
+    {post.data.image && (
+      <figure class="mb-8">
+        <Image 
+          src={post.data.image} 
+          alt={post.data.title} 
+          class="w-full h-auto rounded-lg shadow-lg"
+          width={800} 
+          height={400} 
+        />
+        {/* Caption foto */}
+        {post.data.caption && (
+          <figcaption class="text-xs text-stone-500 italic mt-2 text-center leading-snug">
+            {post.data.caption}
+          </figcaption>
+        )}
+      </figure>
+    )}
+
+    <div class="prose prose-stone prose-lg max-w-none text-justify leading-loose article-content">
+      <Content />
+    </div>
+    
+    <style>
+      .prose :global(p) {
+        margin-bottom: 2rem !important; 
+      }
+    </style>
+
+    {post.data.tags && post.data.tags.length > 0 && (
+      <div class="mt-12 pt-6 border-t border-stone-200">
+        <h3 class="text-sm font-semibold text-slate-500 mb-3">Tags:</h3>
+        <div class="flex flex-wrap gap-2">
+          {post.data.tags.map(tag => (
+            <span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {relatedPosts.length > 0 && (
+      <div class="mt-12 pt-6 border-t border-stone-200">
+        <h3 class="text-xl font-bold mb-6">Post Terkait</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {relatedPosts.map(related => (
+            <a href={`/${related.collection}/${related.id}`} class="block group">
+              {/* Thumbnail */}
+              {related.data.image && (
+                <div class="overflow-hidden rounded-lg mb-3">
+                  <Image 
+                    src={related.data.image} 
+                    alt={related.data.title} 
+                    width={400} 
+                    height={200} 
+                    class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-105" 
+                  />
+                </div>
+              )}
+              {/* Judul & Deskripsi */}
+              <h4 class="font-bold text-lg mb-1 group-hover:text-blue-600 transition-colors">
+                {related.data.title}
+              </h4>
+              <p class="text-sm text-stone-500 line-clamp-2">{related.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+  </article>
+</MainLayout>

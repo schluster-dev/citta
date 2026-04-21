@@ -1,16 +1,48 @@
 import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders'; // Penting: ini cara baru load file
+import { glob } from 'astro/loaders';
 
-const asn = defineCollection({
-  // 'loader' memberitahu Astro untuk mengambil file markdown dari mana
-  loader: glob({ pattern: "**/*.md", base: "src/content/asn" }), 
-  schema: z.object({
+// Kita definisikan koleksi satu per satu secara eksplisit
+const infoAsn = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "src/content/info-asn" }),
+  schema: ({ image }) => z.object({
     title: z.string(),
-    pubDate: z.date(),
+    pubDate: z.coerce.date(),
     description: z.string(),
     author: z.string(),
-    image: z.string().optional(),
+    image: image().optional(),
+    caption: z.string().optional(),
+    tags: z.array(z.string()).optional(),
   }),
 });
 
-export const collections = { asn };
+const pendidikan = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "src/content/pendidikan" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    pubDate: z.coerce.date(),
+    description: z.string(),
+    author: z.string(),
+    image: image().optional(),
+    caption: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+  }),
+});
+
+const teknologi = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "src/content/teknologi" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    pubDate: z.coerce.date(),
+    description: z.string(),
+    author: z.string(),
+    image: image().optional(),
+    caption: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+  }),
+});
+
+export const collections = { 
+  'info-asn': infoAsn, 
+  pendidikan, 
+  teknologi 
+};
