@@ -1,0 +1,25 @@
+---
+// src/layouts/PostLayout.astro
+import SocialSidebar from '../components/SocialSidebar.astro';
+import Header from '../components/Header.astro'; // Asumsi kamu punya header
+
+const { title, frontmatter } = Astro.props;
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-stone-50 text-stone-900">
+    <Header />
+    
+    <main class="relative max-w-4xl mx-auto px-4 py-12">
+      <SocialSidebar />
+      
+      <article class="prose lg:prose-lg mx-auto">
+        <slot />
+      </article>
+    </main>
+  </body>
+</html>

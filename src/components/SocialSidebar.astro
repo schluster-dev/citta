@@ -1,0 +1,111 @@
+---
+interface Props {
+  orientation?: 'col' | 'row';
+}
+
+const { orientation = 'row' } = Astro.props;
+
+const isCol = orientation === 'col';
+const containerClass = `flex ${isCol ? 'flex-col' : 'flex-row'} items-center gap-3 p-3 bg-white/50 backdrop-blur rounded-xl shadow-lg border border-stone-200 w-fit mx-auto`;
+const textClass = `text-xs font-semibold text-stone-500 tracking-wider uppercase ${isCol ? 'pt-2 mb-1' : 'ml-2'}`;
+const separatorClass = isCol ? 'w-full h-px' : 'w-px h-auto';
+---
+
+<aside class={containerClass}>
+    <span class={textClass}>Share</span>
+
+    <button data-platform="facebook" class="share-btn p-3 rounded-full hover:bg-stone-100 transition-colors" title="Share to Facebook">
+        <span class="sr-only">Facebook</span>
+        <svg class="w-5 h-5 text-stone-600" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </button>
+    
+    <button data-platform="twitter" class="share-btn p-3 rounded-full hover:bg-stone-100 transition-colors" title="Share to X">
+        <span class="sr-only">X (Twitter)</span>
+        <svg class="w-5 h-5 text-stone-600" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+    </button>
+    
+    <button data-platform="whatsapp" class="share-btn p-3 rounded-full hover:bg-stone-100 transition-colors" title="Share to WhatsApp">
+        <span class="sr-only">WhatsApp</span>
+        <svg class="w-5 h-5 text-stone-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.07 0C5.495 0 .16 5.335.157 11.914c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.575 0 11.91-5.335 11.913-11.914 0-3.18-1.238-6.17-3.488-8.42"/></svg>
+    </button>
+
+    <button data-platform="instagram" class="share-btn p-3 rounded-full hover:bg-stone-100 transition-colors" title="Copy Link for Instagram">
+        <span class="sr-only">Instagram</span>
+        <svg class="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+    </button>
+
+    <button data-platform="telegram" class="share-btn p-3 rounded-full hover:bg-stone-100 transition-colors" title="Share to Telegram">
+        <span class="sr-only">Telegram</span>
+        <svg class="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+
+    <button data-platform="threads" class="share-btn p-3 rounded-full hover:bg-stone-100 transition-colors" title="Share to Threads">
+        <span class="sr-only">Threads</span>
+        <svg class="w-5 h-5 text-stone-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-18.5a9.5 9.5 0 1 1 0 19 9.5 9.5 0 0 1 0-19Zm-2.5 6.5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-4Zm1 1h2v2h-2v-2Z"/></svg>
+    </button>
+
+    <button id="font-decrease" class="hidden md:flex p-3 rounded-full hover:bg-stone-100 transition-colors" title="Kecilkan Tulisan">
+        <span class="sr-only">Kecilkan</span>
+        <span class="text-stone-600 font-bold text-sm">A-</span>
+    </button>
+    <button id="font-increase" class="hidden md:flex p-3 rounded-full hover:bg-stone-100 transition-colors" title="Besarkan Tulisan">
+        <span class="sr-only">Besarkan</span>
+        <span class="text-stone-600 font-bold text-sm">A+</span>
+    </button>
+
+    <div class={`bg-stone-300 ${separatorClass}`}></div>
+
+    <button id="bookmark-btn" class="p-3 rounded-full hover:bg-stone-100 transition-colors" title="Bookmark Post">
+        <span class="sr-only">Bookmark</span>
+        <svg class="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+        </svg>
+    </button>
+</aside>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Logika Share
+        const shareButtons = document.querySelectorAll('.share-btn');
+        shareButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const platform = button.dataset.platform;
+                const currentUrl = encodeURIComponent(window.location.href);
+                const currentTitle = encodeURIComponent(document.title);
+                let shareUrl = '';
+
+                switch (platform) {
+                    case 'facebook': shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`; break;
+                    case 'twitter': shareUrl = `https://x.com/intent/tweet?url=${currentUrl}&text=${currentTitle}`; break;
+                    case 'whatsapp': shareUrl = `https://wa.me/?text=${currentTitle}%20${currentUrl}`; break;
+                    case 'telegram': shareUrl = `https://t.me/share/url?url=${currentUrl}&text=${currentTitle}`; break;
+                    case 'threads': shareUrl = `https://threads.net/intent/post?text=${currentTitle}%20${currentUrl}`; break;
+                    case 'instagram': navigator.clipboard.writeText(window.location.href); alert("Link berhasil disalin!"); return;
+                }
+                if (shareUrl) window.open(shareUrl, '_blank', 'width=600,height=400');
+            });
+        });
+
+        // Logika Font Resizer
+        const content = document.querySelector('.article-content');
+        const decBtn = document.getElementById('font-decrease');
+        const incBtn = document.getElementById('font-increase');
+        
+        let currentSize = 1; 
+
+        incBtn?.addEventListener('click', () => {
+            currentSize += 0.1;
+            if (content) content.style.fontSize = `${currentSize}rem`;
+        });
+
+        decBtn?.addEventListener('click', () => {
+            currentSize = Math.max(0.8, currentSize - 0.1);
+            if (content) content.style.fontSize = `${currentSize}rem`;
+        });
+
+        // Logika Bookmark
+        document.getElementById('bookmark-btn')?.addEventListener('click', () => {
+            alert('Fitur bookmark segera hadir!');
+        });
+    });
+</script>

@@ -28,7 +28,7 @@ const featuredPosts = allPosts.slice(0, 3);
       
       <div class="overflow-hidden max-w-xl mx-auto h-8">
          <div id="live-ticker" class="text-stone-500 font-serif italic text-lg whitespace-nowrap animate-marquee">
-          </div>
+         </div>
       </div>
     </header>
 
@@ -70,7 +70,6 @@ const featuredPosts = allPosts.slice(0, 3);
         <section>
           <h2 class="text-xl font-serif font-bold text-stone-800 mb-6 border-b border-stone-300 pb-2">Berita Terbaru</h2>
           
-          {/* Perubahan grid di sini: 2 kolom mobile, 3 kolom desktop */}
           <div id="news-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {allPosts.map((post) => (
                <a href={`/${post.collection}/${post.id}`} class="news-card block bg-white/30 backdrop-blur-md border border-white/50 rounded-xl shadow-sm hover:bg-white/40 transition-all overflow-hidden group">
@@ -95,14 +94,11 @@ const featuredPosts = allPosts.slice(0, 3);
       </div>
       <aside class="md:col-span-1">
         <div class="sticky top-24 space-y-8">
-            
-            {/* Box Pencarian SimpleSearch */}
             <div class="bg-white/30 backdrop-blur-md border border-white/50 p-6 rounded-xl">
               <h3 class="font-bold text-stone-800 mb-4">Cari Info</h3>
               <SimpleSearch posts={allPosts} />
             </div>
 
-            {/* Box Kategori */}
             <div class="bg-white/30 backdrop-blur-md border border-white/50 p-6 rounded-xl">
               <h3 class="font-bold text-stone-800 mb-4">Kategori</h3>
               <ul class="space-y-2 text-stone-600">
@@ -129,20 +125,20 @@ const featuredPosts = allPosts.slice(0, 3);
 <script>
   // 1. Pagination Logika
   const cards = document.querySelectorAll('.news-card');
-  const itemsPerPage = 6; // Diubah ke 6 sesuai permintaan
+  const itemsPerPage = 6;
   const totalPages = Math.ceil(cards.length / itemsPerPage);
   const container = document.getElementById('pagination-controls');
 
-  function showPage(page) {
+  function showPage(page: number) {
     cards.forEach((card, index) => {
+      const el = card as HTMLElement;
       if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
-        card.style.display = 'block';
+        el.style.display = 'block';
       } else {
-        card.style.display = 'none';
+        el.style.display = 'none';
       }
     });
 
-    // Update tombol aktif
     document.querySelectorAll('.page-btn').forEach(btn => {
       btn.classList.remove('bg-stone-800', 'text-white');
       btn.classList.add('bg-white', 'text-stone-800');
@@ -153,7 +149,6 @@ const featuredPosts = allPosts.slice(0, 3);
     });
   }
 
-  // Create buttons
   if (totalPages > 1) {
     for (let i = 1; i <= totalPages; i++) {
       const btn = document.createElement('button');
@@ -162,11 +157,11 @@ const featuredPosts = allPosts.slice(0, 3);
       btn.setAttribute('data-page', i.toString());
       btn.addEventListener('click', () => {
           showPage(i);
-          window.scrollTo({ top: (document.getElementById('news-grid')?.offsetTop || 0) - 100, behavior: 'smooth' });
+          const gridEl = document.getElementById('news-grid');
+          if (gridEl) window.scrollTo({ top: gridEl.offsetTop - 100, behavior: 'smooth' });
       });
       container?.appendChild(btn);
     }
-    // Init page 1
     showPage(1);
   }
 
@@ -188,14 +183,15 @@ const featuredPosts = allPosts.slice(0, 3);
   const dots = document.querySelectorAll('.dot');
   const slides = document.querySelectorAll('.slide-item');
   
-  const updateDots = (activeIndex) => {
+  const updateDots = (activeIndex: number) => {
     dots.forEach((dot, i) => {
+      const el = dot as HTMLElement;
       if (i === activeIndex) {
-        dot.classList.add('bg-stone-800', 'scale-110');
-        dot.classList.remove('bg-stone-300');
+        el.classList.add('bg-stone-800', 'scale-110');
+        el.classList.remove('bg-stone-300');
       } else {
-        dot.classList.remove('bg-stone-800', 'scale-110');
-        dot.classList.add('bg-stone-300');
+        el.classList.remove('bg-stone-800', 'scale-110');
+        el.classList.add('bg-stone-300');
       }
     });
   };
@@ -204,7 +200,12 @@ const featuredPosts = allPosts.slice(0, 3);
   prevBtn?.addEventListener('click', () => carousel?.scrollBy({ left: -carousel.clientWidth, behavior: 'smooth' }));
   
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) updateDots(parseInt(entry.target.getAttribute('data-index') || '0')); });
+    entries.forEach(entry => { 
+        if (entry.isIntersecting) {
+            const index = parseInt(entry.target.getAttribute('data-index') || '0');
+            updateDots(index);
+        }
+    });
   }, { threshold: 0.6 });
   
   slides.forEach(slide => observer.observe(slide));
