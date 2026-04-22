@@ -3,6 +3,9 @@ import { getCollection, render } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
 
+// 1. Tambahkan ini agar tidak ada warning saat build
+export const prerender = true;
+
 export async function getStaticPaths() {
   const posts = await getCollection('pendidikan');
   return posts.map(post => ({
@@ -11,10 +14,17 @@ export async function getStaticPaths() {
   }));
 }
 
+// 2. Ambil props
 const { post } = Astro.props;
+
+// 3. PENGAMAN: Jika post tidak ditemukan (misal ada URL typo), langsung redirect ke 404
+if (!post) {
+  return Astro.redirect('/404');
+}
+
 const { Content } = await render(post);
 
-// Logika untuk Post Terkait berdasarkan tag
+// Logika untuk Post Terkait
 const allPosts = await getCollection('pendidikan');
 const relatedPosts = allPosts
   .filter(p => p.id !== post.id && p.data.tags?.some(tag => post.data.tags?.includes(tag)))
@@ -27,7 +37,7 @@ const relatedPosts = allPosts
     <header class="mb-10 text-center">
       <h1 class="text-4xl font-bold mb-4">{post.data.title}</h1>
       <p class="text-gray-500">
-        Oleh {post.data.author} pada {new Date(post.data.pubDate).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+        Oleh {post.data.author || 'Admin'} pada {new Date(post.data.pubDate).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
       </p>
     </header>
 
@@ -40,7 +50,6 @@ const relatedPosts = allPosts
           width={800} 
           height={400} 
         />
-        {/* Caption foto */}
         {post.data.caption && (
           <figcaption class="text-xs text-stone-500 italic mt-2 text-center leading-snug">
             {post.data.caption}
@@ -52,12 +61,6 @@ const relatedPosts = allPosts
     <div class="prose prose-stone prose-lg max-w-none text-justify leading-loose article-content">
       <Content />
     </div>
-
-    <style>
-      .prose :global(p) {
-        margin-bottom: 2rem !important; 
-      }
-    </style>
 
     {post.data.tags && post.data.tags.length > 0 && (
       <div class="mt-12 pt-6 border-t border-stone-200">
@@ -78,7 +81,6 @@ const relatedPosts = allPosts
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           {relatedPosts.map(related => (
             <a href={`/${related.collection}/${related.id}`} class="block group">
-              {/* Thumbnail */}
               {related.data.image && (
                 <div class="overflow-hidden rounded-lg mb-3">
                   <Image 
@@ -90,7 +92,6 @@ const relatedPosts = allPosts
                   />
                 </div>
               )}
-              {/* Judul & Deskripsi */}
               <h4 class="font-bold text-lg mb-1 group-hover:text-blue-600 transition-colors">
                 {related.data.title}
               </h4>
@@ -101,4 +102,10 @@ const relatedPosts = allPosts
       </div>
     )}
   </article>
+
+  <style>
+    .prose :global(p) {
+      margin-bottom: 2rem !important; 
+    }
+  </style>
 </MainLayout>
