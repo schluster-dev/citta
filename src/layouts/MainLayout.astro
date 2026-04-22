@@ -1,9 +1,7 @@
 ---
 const { title } = Astro.props;
 import '../styles/global.css';
-import { injectSpeedInsights } from '@vercel/speed-insights';
-
-injectSpeedInsights();
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 const pathname = Astro.url.pathname;
 const isActive = (path: string) => pathname === path || (path !== '/' && pathname.startsWith(path));
@@ -44,5 +42,6 @@ const isActive = (path: string) => pathname === path || (path !== '/' && pathnam
       </div>
     </footer>
 
+    <SpeedInsights />
   </body>
 </html>
