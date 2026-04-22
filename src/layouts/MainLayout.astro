@@ -2,6 +2,7 @@
 const { title } = Astro.props;
 import '../styles/global.css';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import Footer from '../components/Footer.astro';
 
 const pathname = Astro.url.pathname;
 const isActive = (path: string) => pathname === path || (path !== '/' && pathname.startsWith(path));
@@ -16,7 +17,6 @@ const isActive = (path: string) => pathname === path || (path !== '/' && pathnam
   <body class="bg-stone-50 text-stone-800 font-sans leading-relaxed">
     
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200">
-      {/* max-w-7xl memberikan ruang lebih lebar */}
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
         
         <a href="/" class="text-2xl font-bold tracking-tighter text-stone-900 hover:opacity-75 transition">
@@ -31,16 +31,11 @@ const isActive = (path: string) => pathname === path || (path !== '/' && pathnam
       </div>
     </nav>
     
-    {/* Menggunakan max-w-7xl agar konten utama ikut melebar */}
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[70vh]">
-      <slot />
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 min-h-[70vh] text-justify">
+    <slot />
     </main>
 
-    <footer class="border-t border-stone-200 mt-10">
-      <div class="max-w-7xl mx-auto px-6 py-8 text-center text-stone-500 text-xs">
-        &copy; {new Date().getFullYear()} Citta. Platform Informasi Kreatif.
-      </div>
-    </footer>
+    <Footer />
 
     <SpeedInsights />
   </body>
