@@ -7,7 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "start": "astro dev",
+    "build": "astro build && npx pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -35,6 +36,7 @@
     "vue": "^3.5.32"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.19"
+    "@tailwindcss/typography": "^0.5.19",
+    "pagefind": "^1.5.2"
   }
 }
