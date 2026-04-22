@@ -1,44 +1,31 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z, type ImageFunction } from 'astro:content'; // Tambahkan type ImageFunction
 import { glob } from 'astro/loaders';
 
-// Kita definisikan koleksi satu per satu secara eksplisit
+// Berikan tipe pada parameter fungsi helper agar TypeScript tidak bingung
+const baseSchema = ({ image }: { image: ImageFunction }) => z.object({
+  title: z.string(),
+  pubDate: z.coerce.date(),
+  description: z.string(),
+  author: z.string(),
+  image: image().optional(),
+  caption: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  excerpt: z.string().optional(), 
+});
+
 const infoAsn = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "src/content/info-asn" }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    pubDate: z.coerce.date(),
-    description: z.string(),
-    author: z.string(),
-    image: image().optional(),
-    caption: z.string().optional(),
-    tags: z.array(z.string()).optional(),
-  }),
+  schema: baseSchema,
 });
 
 const pendidikan = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "src/content/pendidikan" }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    pubDate: z.coerce.date(),
-    description: z.string(),
-    author: z.string(),
-    image: image().optional(),
-    caption: z.string().optional(),
-    tags: z.array(z.string()).optional(),
-  }),
+  schema: baseSchema,
 });
 
 const teknologi = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "src/content/teknologi" }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    pubDate: z.coerce.date(),
-    description: z.string(),
-    author: z.string(),
-    image: image().optional(),
-    caption: z.string().optional(),
-    tags: z.array(z.string()).optional(),
-  }),
+  schema: baseSchema,
 });
 
 export const collections = { 

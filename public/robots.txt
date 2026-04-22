@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://citta-six.vercel.app/sitemap-index.xml
