@@ -1,0 +1,37 @@
+---
+import SimpleSearch from './simplesearch.astro';
+import PopularTags from './PopularTags.astro';
+import AdSlot from './AdSlot.astro';
+
+interface Props {
+  posts: any[];
+}
+
+const { posts } = Astro.props;
+const collections = ['info-asn', 'pendidikan', 'teknologi'];
+const formatCategory = (str: string) => str.replace('-', ' ').replace(/\b\w/g, c => c.toUpperCase());
+---
+
+<aside class="md:col-span-1">
+  <div class="sticky top-24 space-y-8">
+    
+    <div class="bg-white/30 backdrop-blur-md border border-white/50 p-6 rounded-xl">
+      <h3 class="font-bold text-stone-800 mb-4">Cari Info</h3>
+      <SimpleSearch posts={posts} />
+    </div>
+
+    <div class="bg-white/30 backdrop-blur-md border border-white/50 p-6 rounded-xl">
+      <h3 class="font-bold text-stone-800 mb-4">Kategori</h3>
+      <ul class="space-y-2 text-stone-600">
+        {collections.map(col => (
+          <li><a href={`/${col}`} class="hover:text-primary capitalize">{formatCategory(col)}</a></li>
+        ))}
+      </ul>
+    </div>
+    
+    <AdSlot className="h-[400px]" />
+
+    <PopularTags />
+
+  </div>
+</aside>
